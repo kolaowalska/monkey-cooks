@@ -26,8 +26,11 @@ jobs:
           pdflatex -interaction=nonstopmode main.tex
           pdflatex -interaction=nonstopmode main.tex 
 
+      - name: list generated files
+        run: ls -alh
+
       - name: upload pdf as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.0.0
         with:
           name: monkey-cooks-pdf
           path: main.pdf
