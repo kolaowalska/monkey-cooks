@@ -24,7 +24,7 @@ jobs:
       - name: compile latex document
         run: |
           pdflatex -interaction=nonstopmode main.tex
-          pdflatex -interaction=nonstopmode main.tex # Run it twice for correct references
+          pdflatex -interaction=nonstopmode main.tex 
 
       - name: upload pdf 
         uses: actions/upload-artifact@v2
