@@ -30,7 +30,7 @@ jobs:
         run: ls -alh
 
       - name: upload pdf as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: monkey-cooks-pdf
           path: malpie_gotowanie.pdf
