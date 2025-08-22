@@ -1,0 +1,50 @@
+name: Build LaTeX PDF
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write  # allow committing the built PDF
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # fetch full history so git can properly commit
+          fetch-depth: 0
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          # latexmk_use_xelatex: true  # uncomment if you need XeLaTeX
+          # latexmk_use_lualatex: true # or LuaLaTeX
+          # extra_system_packages: "ghostscript"
+
+      - name: Normalize output filename
+        run: |
+          if [ -f main.pdf ]; then
+            cp -f main.pdf malpie_gotowanie.pdf
+          fi
+
+      - name: Commit updated PDF
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: update generated PDF"
+          file_pattern: |
+            malpie_gotowanie.pdf
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cookbook-pdf
+          path: |
+            malpie_gotowanie.pdf
+          if-no-files-found: warn
+
